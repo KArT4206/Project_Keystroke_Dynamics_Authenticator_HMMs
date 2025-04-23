@@ -126,7 +126,7 @@ This approach strengthens cybersecurity by adding a behavioral biometric layer t
 
 ## License
 
-MIT License.
+licensed under the MIT License.
 
 ---
 
