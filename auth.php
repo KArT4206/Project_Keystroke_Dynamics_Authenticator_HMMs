@@ -1,5 +1,4 @@
 <?php
-//auth.php
 header('Content-Type: text/plain');
 
 $users = file_exists('users.txt') ? file('users.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) : [];
