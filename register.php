@@ -1,5 +1,4 @@
 <?php
-//register.php
 $data = [
     'username' => $_POST['username'],
     'password' => $_POST['password'],
