@@ -45,6 +45,15 @@ UD Difference: 10.4
 Total Difference: 15.1
 Authentication Successful!
 ```
+---
+
+## User Interfaces
+
+### Register Page  
+![Register Page](screens/register_page.png)
+
+### Login Page  
+![Login Page](screens/login_page.png)
 
 ---
 
