@@ -1,140 +1,86 @@
-# Personalized Keystroke Dynamics Authenticator using Hidden Markov Models (HMMs)
+# Keystroke Dynamics Web Authenticator (PHP + JS)
 
-A biometric authentication system that verifies users based on their unique typing rhythm. The system captures timing patterns (dwell time and flight time) and uses a Hidden Markov Model (HMM) to distinguish between genuine users and imposters with high accuracy.
+A secure user authentication system that leverages **Keystroke Dynamics**—a behavioral biometric based on typing rhythm—to verify identities during login and registration. Implemented using PHP and vanilla JavaScript for browser-side timing capture.
 
 ---
 
-## Overview
-
-This project involves:
-- Keystroke Logging: Captures timing between key presses.
-- Feature Extraction: Converts key events into numerical features.
-- Model Training: Learns user behavior using HMM.
-- Authentication: Matches new input with the trained pattern.
+## Problem Statement
+Traditional username-password systems are vulnerable to brute-force attacks and data leaks. Keystroke dynamics adds a biometric verification layer to increase security without additional hardware.
 
 ---
 
 ## Relation to Design and Analysis of Algorithms (DAA)
-
-- Algorithmic Design: Applies probabilistic modeling (HMM) to recognize sequential patterns.
-- Time & Space Trade-offs: Optimizes authentication performance while balancing model complexity.
-- Complexity Analysis: Ensures the approach is feasible for real-time usage scenarios.
+- **Similarity Measurement**: The algorithm calculates average absolute differences between timing vectors, optimized with `O(n)` traversal.
+- **Threshold-Based Classification**: Simple and efficient, allowing real-time decisions.
+- **DAA Topics Applied**:
+  - Greedy strategy for nearest-match classification.
+  - Time complexity and performance optimization.
 
 ---
 
 ## Time and Space Complexity
+| Operation                  | Time Complexity | Space Complexity |
+|---------------------------|------------------|------------------|
+| Typing data capture (JS)  | O(n)             | O(n)             |
+| Difference calculation    | O(n)             | O(n)             |
+| PHP file parsing          | O(m * n)         | O(m * n)         |
 
-| Component        | Time Complexity      | Space Complexity    |
-|------------------|----------------------|---------------------|
-| Data Processing  | O(n)                 | O(n)                |
-| HMM Training     | O(n * t * k^2)       | O(k^2)              |
-| Authentication   | O(t * k^2)           | O(k^2)              |
-
-- n = number of samples, t = time steps (keystrokes), k = HMM states
-
----
-
-## Installation
-
-### Prerequisites:
-Make sure you have Python 3.8+ and pip installed.
-
-### Install Required Packages:
-```bash
-pip install numpy joblib hmmlearn pynput scikit-learn matplotlib
-```
+> Where `n` is the number of keystrokes, and `m` is the number of users.
 
 ---
 
-## How to Run
-
-### 1. Record Typing Pattern:
-```bash
-python keystroke_logger.py
-```
-Type the phrase 4–5 times and press ESC.
-
-### 2. Process Data:
-```bash
-python process_data.py
-```
-
-### 3. Train Model:
-```bash
-python train_model.py
-```
-
-### 4. Authenticate:
-```bash
-python keystroke_logger.py   # Type the phrase again
-python authenticate.py
-```
+## Installation & Run
+1. Install XAMPP or any local server with PHP.
+2. Copy files into `htdocs/keystroke-auth`.
+3. Start Apache and open: `http://localhost/keystroke-auth/register.html`
+4. Register, then test with `login.html`.
 
 ---
 
-## Sample Output
-
+## Sample Output (from `auth.php`)
 ```
-Type a phrase (press ESC to end)...
-Data saved.
-Feature shape: (39, 2)
-Model successfully saved as user_model.pkl
-
-Log Likelihood Score: -12.33
-User Authenticated
+Hold Difference: 15.2
+DD Difference: 19.7
+UD Difference: 10.4
+Total Difference: 15.1
+Authentication Successful!
 ```
-
----
-
-## Advantages
-
-- Non-intrusive: No hardware needed beyond a keyboard.
-- Hard to Mimic: Typing patterns are difficult to reproduce.
-- Continuous Authentication: Can run in the background.
-- Low Cost: Purely software-based.
-- Scalable: Can support many users with individual models.
 
 ---
 
 ## Real-World Applications
-
-- Secure Login Systems: For banks, universities, and businesses.
-- Continuous Session Monitoring: Detect unauthorized access during a session.
-- Multi-Factor Authentication (MFA): Acts as a behavioral layer in MFA.
-- Remote Exams / Online Proctoring: Ensure test-taker identity.
+- **Cybersecurity**: Used in high-security portals for continuous user verification.
+- **Banking/Finance**: Adds an invisible layer of authentication.
+- **Workplace Systems**: Prevents unauthorized access even if credentials are stolen.
 
 ---
 
 ## Cybersecurity Impact
-
-This approach strengthens cybersecurity by adding a behavioral biometric layer to traditional login systems:
-
-- More Secure than Passwords: Even if a password is leaked, the user can't be impersonated easily.
-- Hard to Replicate: Unlike fingerprints or face data that can be copied, typing rhythm is dynamic.
-- Hacker Resistance: Keyloggers may capture what is typed, but reproducing timing patterns is highly difficult.
-- Anomaly Detection: Can flag suspicious behavior patterns even post-login.
+- **Difficult to spoof**: Unlike passwords, keystroke behavior is hard to mimic.
+- **No extra hardware**: Behavior-based biometric.
+- **Challenge for Hackers**:
+  - High entropy of behavioral data.
+  - Time-sensitive precision needed to bypass the system.
 
 ---
 
-## Challenges for Hackers
-
-- Behavioral Data Can't Be Stolen Easily: Even if someone records keystrokes, timing variation makes imitation hard.
-- Machine Learning Adaptability: The model adapts over time, making static attack patterns ineffective.
-- Need for Real-Time Simulation: Hackers would need to recreate the entire timing sequence in real-time, which is extremely difficult.
+## Advantages
+- Lightweight, works in-browser.
+- Easy integration into existing PHP projects.
+- Transparent to users.
+- Boosts password system without extra effort.
 
 ---
 
 ## License
 
-licensed under the MIT License.
+MIT License.
 
 ---
+
 
 ## Developed by
 
 Karthik B  
 Priyanka G   
 Adharsh Ramakrishnan
-
----
-
