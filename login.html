@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f9;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .form-container a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .form-container a:hover {
+            color: #45a049;
+        }
+    </style>
+    <script>
+        //login.html
+        let keyEvents = [];
+
+        function captureTiming(e) {
+            if (e.target.name === "password") {
+                keyEvents.push({
+                    type: e.type,
+                    key: e.key,
+                    time: performance.now()
+                });
+            }
+        }
+
+        function processTimings() {
+            let timings = { holds: [], dds: [], uds: [] };
+            let lastDown = {};
+
+            keyEvents.forEach(event => {
+                if (event.type === 'keydown') {
+                    if (!lastDown[event.key]) {
+                        lastDown[event.key] = event.time;
+                    }
+                } else if (event.type === 'keyup') {
+                    if (lastDown[event.key]) {
+                        timings.holds.push(event.time - lastDown[event.key]);
+                        delete lastDown[event.key];
+                    }
+                }
+            });
+
+            let downs = keyEvents.filter(e => e.type === 'keydown');
+            for (let i = 1; i < downs.length; i++) {
+                timings.dds.push(downs[i].time - downs[i - 1].time);
+            }
+
+            let ups = keyEvents.filter(e => e.type === 'keyup');
+            for (let i = 0; i < ups.length; i++) {
+                if (downs[i + 1]) {
+                    timings.uds.push(downs[i + 1].time - ups[i].time);
+                }
+            }
+
+            return timings;
+        }
+
+        function submitForm() {
+            const timings = processTimings();
+            document.getElementById('timings').value = JSON.stringify(timings);
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form action="auth.php" method="post" onsubmit="return submitForm()">
+                <input type="text" name="username" placeholder="Username" required><br>
+                <input type="password" name="password" placeholder="Password" required 
+                       onkeydown="captureTiming(event)" onkeyup="captureTiming(event)"><br>
+                <input type="hidden" name="timings" id="timings">
+                <button type="submit">Login</button>
+            </form>
+            <a href="register.html">Don't have an account? Register here.</a>
+        </div>
+    </div>
+</body>
+</html>
