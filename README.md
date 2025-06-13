@@ -91,5 +91,3 @@ MIT License.
 ## Developed by
 
 Karthik B  
-Priyanka G   
-Adharsh Ramakrishnan
